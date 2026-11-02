@@ -1,0 +1,36 @@
+services:
+  kali:
+    build: ./kali
+    networks:
+      lab: { ipv4_address: 172.20.0.10 }
+
+  web-old:
+    image: httpd:2.4.49
+    networks:
+      lab: { ipv4_address: 172.20.0.21 }
+
+  dvwa:
+    image: vulnerables/web-dvwa
+    networks:
+      lab: { ipv4_address: 172.20.0.22 }
+
+  ftp:
+    image: fauria/vsftpd
+    networks:
+      lab: { ipv4_address: 172.20.0.23 }
+
+  ssh:
+    image: linuxserver/openssh-server
+    environment:
+      - PASSWORD_ACCESS=true
+      - USER_NAME=student
+      - USER_PASSWORD=ChangeMe-Lab1
+    networks:
+      lab: { ipv4_address: 172.20.0.24 }
+
+networks:
+  lab:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
